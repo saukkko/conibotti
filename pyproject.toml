@@ -1,0 +1,15 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ConiBotti"
+dynamic = ["version"]
+description = "Discord bot"
+readme = "README.md"
+license = "LICENSE.md"
+requires-python = ">=3.12"
+
+
+[tool.hatch.version]
+path = "__version__.py"
