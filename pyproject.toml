@@ -6,10 +6,10 @@ build-backend = "hatchling.build"
 name = "ConiBotti"
 dynamic = ["version"]
 description = "Discord bot"
-readme = "README.md"
-license = "LICENSE.md"
+readme = "src/conibotti/README.md"
+license.file = "src/conibotti/LICENSE.md"
 requires-python = ">=3.12"
 
 
 [tool.hatch.version]
-path = "__version__.py"
+path = "src/conibotti/__version__.py"
