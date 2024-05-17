@@ -2,11 +2,39 @@
 
 Discord bot. Fetches data from an api, formats it and prints it out.
 
-## what-how-why
+## Install & Usage
 
-- does X
-- install Y
-- inspired by Z
+**Requires minimum of Python 3.12 to support PEP 701 style f-strings**
+
+```bash
+$ python -c "print(f'{object.__dict__['__doc__']}')"
+# The base class of the class hierarchy.
+#
+# When called, it accepts no arguments and returns a new featureless
+# instance that has no instance attributes and cannot be given any.
+#
+# ^ this means you can run this app 
+```
+
+```bash
+$ python -c "print(f'{object.__dict__['__doc__']}')"
+#   File "<string>", line 1
+#     print(f'{object.__dict__['__doc__']}')
+#                               ^^^^^^^
+# SyntaxError: f-string: unmatched '['
+#
+# ^ this means you can not run this app
+```
+
+### TL;DR
+
+```bash
+$ git clone <repo_url> && cd <repo_name>
+$ python -m venv .venv --upgrade-deps
+$ .venv\Scripts\activate
+$ python -m pip install -r requirements.txt --upgrade
+$ python -m conibotti
+```
 
 ## TODO
 
