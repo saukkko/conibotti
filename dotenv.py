@@ -1,4 +1,4 @@
-import os
+from os import getenv, environ
 from pathlib import Path
 
 
@@ -24,9 +24,9 @@ def load_dotenv(dotenv_file: str = ".env", *,
 
             # update os.environ only and only if called with override=True or
             # if env var does not exist
-            if override or not os.getenv(k, None):
+            if override or not getenv(k, None):
                 # strip single or double quotes but not both
                 v = v.strip("'") if v.strip("'") != v else v.strip('"')
 
                 # update the env var
-                os.environ.update({k: v})
+                environ.update({k: v})
