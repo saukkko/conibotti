@@ -1,11 +1,26 @@
 {
+    "[toml]": {
+        "editor.defaultFormatter": "tamasfe.even-better-toml"
+    },
+    "[jsonc]": {
+        "editor.suggest.matchOnWordStartOnly": true,
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace"
+    },
     "[python]": {
         "editor.defaultFormatter": "ms-python.autopep8",
         "diffEditor.ignoreTrimWhitespace": false,
         "editor.trimAutoWhitespace": true,
         "editor.formatOnType": true,
         "editor.formatOnSave": true,
-        "editor.rulers": [72, 79, 99],
+        "editor.rulers": [
+            72,
+            79,
+            99
+        ],
     },
     "mypy-type-checker.ignorePatterns": [
         "**/site-packages/**/*.py",
@@ -17,6 +32,12 @@
         ".vscode/*.py",
         "old/*.py"
     ],
+    "python.analysis.typeshedPaths": [
+        "stubs",
+        "typings"
+    ],
+    "editor.formatOnType": true,
+    "editor.formatOnSave": true,
     "editor.suggest.preview": false,
     "editor.suggest.matchOnWordStartOnly": true,
     "python.languageServer": "Pylance",
@@ -26,7 +47,7 @@
     "python.analysis.inlayHints.variableTypes": true,
     "python.REPL.enableREPLSmartSend": false,
     "files.exclude": {
-        "**/__pycache__":true,
+        "**/__pycache__": true,
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
@@ -35,7 +56,7 @@
         "**/Thumbs.db": true
     },
     "search.exclude": {
-        "**/__pycache__":true,
+        "**/__pycache__": true,
         "**/node_modules": true,
         "**/bower_components": true,
         "**/*.code-search": true

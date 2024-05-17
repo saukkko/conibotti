@@ -4,7 +4,7 @@ from pathlib import Path
 from json import load as json_load
 
 from .decoder import decode_hook
-from .types.api_types import ConitData
+from .api_types import ConitData
 
 
 class EndpointUrl(Url):

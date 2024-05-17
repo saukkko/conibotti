@@ -1,14 +1,16 @@
 from os import getenv
 from sys import argv, orig_argv
-from dotenv import load_dotenv
 
-from src.app import App
-from src.types.app_types import AppConfig
+from __version__ import __version__
+from dotenv import load_dotenv
+from app.app import App
+from app.app_types import AppConfig
 
 from interactions import (
     listen, slash_command, slash_option, SlashContext, OptionType)
 from interactions.api.events import (
     Ready, MessageCreate, InteractionCreate, Error, Startup)
+
 
 ###############################################################################
 # Initialize
@@ -40,7 +42,7 @@ validate_environment()
 
 # region: initialize app
 APP_NAME = "ConiBotti"
-APP_VERSION = "0.1.0"
+APP_VERSION = __version__
 
 CONFIG: AppConfig = {
     "APP_NAME": APP_NAME,

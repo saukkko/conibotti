@@ -1,8 +1,8 @@
-from typing import TypedDict, List
+from typing import TypeAlias, TypedDict, List
 from urllib3.util import Url
 from datetime import datetime
 
-EventList = List["EventData"]
+EventList: TypeAlias = List["EventData"]
 
 
 class EventData(TypedDict):

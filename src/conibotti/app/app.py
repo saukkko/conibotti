@@ -1,8 +1,8 @@
 from interactions import Client, Intents, to_snowflake
 
-from .api.types.api_types import ConitData, EventData
-from .types.app_types import AppConfig
-from .api.get_data import load_data, EndpointUrl
+from api.get_data import load_data, EndpointUrl
+from api.api_types import ConitData, EventData
+from .app_types import AppConfig
 
 
 class App():
