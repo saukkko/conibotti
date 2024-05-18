@@ -1,0 +1,59 @@
+version: 1
+formatters:
+  basic:
+    format: "%(levelname)s:%(name)s:%(message)s"
+  short:
+    format: "%(asctime)s:%(levelname)s:%(name)s:%(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+    style: "%"
+    validate: yes
+  full:
+    format: "[%(relativeCreated)012d][%(asctime)s]%(levelname)s:%(name)s:%(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S%z"
+    style: "%"
+    validate: yes
+handlers:
+  con_basic:
+    class: logging.StreamHandler
+    formatter: basic
+    level: INFO
+    stream: ext://sys.stdout
+  con_warn:
+    class: logging.StreamHandler
+    formatter: full
+    level: WARNING
+    filters: []
+    stream: ext://sys.stderr
+  con_info:
+    class: logging.StreamHandler
+    formatter: short
+    level: INFO
+    filters: []
+    stream: ext://sys.stdout
+  file_s_rotate:
+    class: logging.handlers.RotatingFileHandler
+    formatter: full
+    level: INFO
+    filename: log/app.log
+    maxBytes: 33554432 # 32768 * 1024 = 33554432 = 32M
+    backupCount: 16 # 32M * 16 = 512M
+  file_t_rotate:
+    class: logging.handlers.TimedRotatingFileHandler
+    when: "d"
+    interval: 1
+    backupCount: 90
+    delay: no
+    utc: yes
+    atTime: "00:00:00"
+    formatter: full
+    level: INFO
+    filename: log/conibotti.log
+loggers:
+  conibotti:
+    level: INFO
+    handlers: [con_basic, con_warn, file_s_rotate]
+  interactions:
+    level: INFO
+    handlers: [con_warn, file_t_rotate]
+incremental: no
+disable_existing_loggers: no

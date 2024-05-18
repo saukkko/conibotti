@@ -1,42 +1,36 @@
 from os import getenv
-from sys import argv, orig_argv
+from sys import stderr
+from logging import getLogger
 
 from __version__ import __version__
 from dotenv import load_dotenv
+from util import is_debug, validate_env
 from app.app import App
+from app.logger import LogLevel, setup_logger
 from app.app_types import AppConfig
 
 from interactions import (
     listen, slash_command, slash_option, SlashContext, OptionType)
 from interactions.api.events import (
-    Ready, MessageCreate, InteractionCreate, Error, Startup)
+    Ready, InteractionCreate, Error, Startup)
 
 
 ###############################################################################
 # Initialize
 # region: initialize
+
+# region: initialize logger
+
+setup_logger()
+logger = getLogger("conibotti")
+logger.info("Hello")
+# endregion: initialize logger
+
 # region: initialize environment
 
 
 load_dotenv(".env", override=False)
-
-
-def is_debug() -> bool:
-    return any([
-        getenv("DEBUG") is not None,
-        "--debug" in argv,
-        "--debug" in orig_argv
-    ])
-
-
-def validate_environment():
-    if getenv("DEBUG") and getenv("PRODUCTION"):
-        raise ValueError(
-            "Both DEBUG and PRODUCTION environment variables are set. Only "
-            "one must be set.")
-
-
-validate_environment()
+validate_env()
 
 # endregion: initialize environment
 
@@ -55,6 +49,9 @@ CONFIG: AppConfig = {
 }
 
 app = App(config=CONFIG)
+bot = app.bot
+
+pass
 
 # endregion: initialize app
 # endregion: initialize
@@ -67,27 +64,22 @@ app = App(config=CONFIG)
 
 @listen(Startup)
 async def on_startup():
-    print(f"{app} startup complete")
+    bot.logger.info(f"{app} startup complete")
 
 
 @listen(Ready)
 async def on_ready() -> None:
-    print("Bot is ready")
-
-
-@listen()
-async def on_message_create(event: MessageCreate):
-    print(f"message received: {event.message.content}")
+    bot.logger.info("Bot is ready")
 
 
 @listen()
 async def on_error(event: Error):
-    print(f"An error occured: {event.error}")
+    bot.logger.error(f"An error occured: {event.error}")
 
 
 @listen()
 async def on_interaction_create(event: InteractionCreate):
-    print(f"New interaction: {event.interaction}")
+    bot.logger.info(f"New interaction: {event.interaction}")
 
 # endregion: setup event listeners
 
@@ -126,8 +118,13 @@ async def get_event(ctx: SlashContext, slug: str):
 # Main entry point
 # region: main
 def main():
-    bot = app.bot
-    bot.start(app.config["TOKEN"])
+    try:
+        logger.log(level=LogLevel.ALL,
+                   msg="App initialized, starting the bot...")
+        bot.start(app.config["TOKEN"])
+    except Exception as e:
+        print(e, file=stderr)
+        bot.stop()
 # endregion: main
 
 

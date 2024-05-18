@@ -21,6 +21,9 @@ bin/
 lib/
 misc/
 
+log/**/*
+**/*.log
+**/*.log.*
 
 !.vscode/settings.json
 !.gitignore

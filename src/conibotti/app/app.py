@@ -1,4 +1,5 @@
-from interactions import Client, Intents, to_snowflake
+from logging import getLogger
+from interactions import Client, Intents, to_snowflake, logger_name
 
 from api.get_data import load_data, EndpointUrl
 from api.api_types import ConitData, EventData
@@ -9,6 +10,17 @@ class App():
     __config: AppConfig
     __bot: Client
 
+    def __init__(self, config: AppConfig) -> None:
+        DEBUG = config["DEBUG"]
+        debug_scope = to_snowflake(691669279376146452 if DEBUG else 0)
+
+        _logger = getLogger(logger_name)
+        self.config = config
+        self.bot = Client(intents=Intents.DEFAULT,
+                          debug_scope=debug_scope,
+                          logger=_logger)
+
+    # region: properties
     @property
     def bot(self) -> Client:
         return self.__bot
@@ -24,28 +36,7 @@ class App():
     @config.setter
     def config(self, value) -> None:
         self.__config = value
-
-    def __init__(self, config: AppConfig) -> None:
-        DEBUG = config["DEBUG"]
-        debug_scope = to_snowflake(691669279376146452 if DEBUG else 0)
-
-        self.config = config
-        self.bot = Client(intents=Intents.DEFAULT,
-                          debug_scope=debug_scope)
-
-    def __info__(self) -> str:
-        app_name, app_version = (
-            self.config["APP_NAME"], self.config["APP_VERSION"])
-        return f"{app_name} - v{app_version}"
-
-    def __str__(self) -> str:
-        return self.__info__()
-
-    def __repr__(self) -> str:
-        return self.__info__()
-
-    def __ascii__(self) -> str:
-        return self.__info__()
+    # endregion: properties
 
     def format_event_data(self, event: EventData):
         header = f"## {event["name"]}"
@@ -116,3 +107,23 @@ class App():
         data = load_data(endpoint=_, use_local=True)
 
         self.list_events(data=data)
+
+    # region: static methods
+
+    # endregion: static methods
+
+    # region: misc
+    def __info__(self) -> str:
+        app_name, app_version = (
+            self.config["APP_NAME"], self.config["APP_VERSION"])
+        return f"{app_name} - v{app_version}"
+
+    def __str__(self) -> str:
+        return self.__info__()
+
+    def __repr__(self) -> str:
+        return self.__info__()
+
+    def __ascii__(self) -> str:
+        return self.__info__()
+    # endregion: misc
