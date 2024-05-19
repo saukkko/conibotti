@@ -1,6 +1,7 @@
 from os import getenv
-from sys import stderr
 from logging import getLogger
+from asyncio import run, sleep
+
 
 from __version__ import __version__
 from dotenv import load_dotenv
@@ -13,7 +14,7 @@ from interactions import (
     listen, slash_command, slash_option, SlashContext, OptionType)
 from interactions.api.events import (
     Ready, InteractionCreate, Error, Startup)
-
+from interactions import Permissions
 
 ###############################################################################
 # Initialize
@@ -117,16 +118,18 @@ async def get_event(ctx: SlashContext, slug: str):
 ###############################################################################
 # Main entry point
 # region: main
-def main():
-    try:
-        logger.log(level=LogLevel.ALL,
-                   msg="App initialized, starting the bot...")
-        bot.start(app.config["TOKEN"])
-    except Exception as e:
-        print(e, file=stderr)
-        bot.stop()
+
+
+async def main():
+    logger.log(level=LogLevel.ALL, msg="App initialized, starting the bot...")
+    await bot_start()
+
+
+async def bot_start():
+    await bot.astart(token=app.config["TOKEN"])
+
 # endregion: main
 
 
 if __name__ == "__main__":
-    main()
+    run(main())
